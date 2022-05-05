@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html> <!--V.1.1. This html/css/JS application was published by Nate Brown 5/1/2022. This application is open source.  -->
+<!-- View the "Console" tab to see the step by step calculations performed. -->
+	<head> 
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+		<style> 
+		body {
+		background-color: #1a1e2c;
+		
+		background-image: linear-gradient(132deg, black 0%, #404041);
+		height: 100%;
+		margin: 0;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		}
+		h1, label, input, select, p, a{
+		font-family: 'Roboto Light 300', sans-serif;
+		}
+		h1, label, p {
+		animation: color-change 20s infinite;
+		}
+		a {
+		color: aqua
+		}
+		
+		@keyframes color-change {
+		0% { color: #fec52e; }
+		25% { color: #f5821f; }
+		50% { color: #e24725; }
+		100% { color: #fec52e; }
+		}
+		
+		.button {
+		cursor: pointer;
+		}
+		
+		.instructions {
+		background-color: #404041; 
+		animation:color-change 10s infinite ;
+		border-radius: 6px;
+		cursor: pointer;
+		}
+		
+		#dividoo{
+		display: none;
+		color: #1a1e2c;
+		}
+		
+		</style>
+	
+	
+		<title> Height and Class Calculator </title>
+		<h1> Height and Class Calculator </h1> 
+		
+		<script> 
+			function hideInstructions(){
+				var x = document.getElementById("dividoo");
+				if (x.style.display === "block") {
+					x.style.display = "none";
+					x.style.color = "#1a1e2c";
+					
+				} else {
+					x.style.display = "block";
+					x.style.color = "#1a1e2c";
+				}
+			}
+			function calc()
+			{
+				console.log("")
+				console.log("📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏")
+				console.log("")
+				var ft = parseFloat(document.getElementById('feet').value);
+				var inch = parseFloat(document.getElementById('inches').value);
+				if (isNaN(inch)){
+					inch = 0;
+				}
+				var wt = parseFloat(document.getElementById('width').value);
+				if (isNaN(wt)){
+					wt = 0;
+				}
+				var pole_height = getHeightClass(ft,inch);
+				var mode = document.getElementById('mode').value;
+				if(mode === 'diameter'){
+					console.log(wt + " x 3.14159");
+					console.log("=")
+					wt = wt * 3.14159;
+					
+				}
+				console.log("Circumference is: " + wt);
+
+				
+				var pole_class = getPoleClass(pole_height, wt)
+				if (isNaN(pole_height)){
+					pole_height = "None";
+				}
+				document.getElementById('result').value ="Height: " +  pole_height + " " + pole_class;
+				
+				
+				
+			}
+			
+			function getHeightClass(f, i)
+			{
+				var height;
+				console.log("Inches unconverted: " + i);
+				i = i/12;
+				console.log("Inches converted to ft: " + i );
+				f = f + i;
+				console.log("     feet & inches combined: " + f);
+				console.log("            " + f + " + " + "(" + f + "x .10 + 2)" );
+				console.log(" = ");
+				height = f + (f * .10 + 2) 
+				console.log("Pole Length: " + height);
+				height = Math.ceil(height / 5) * 5;
+				console.log("Closest height class: " + height);
+				console.log("");
+				return height;
+			
+			}
+			function clr()
+			{
+				
+				document.getElementById('feet').value = "" ;
+				document.getElementById('inches').value = "" ;
+				document.getElementById('width').value = "" ;
+				document.getElementById('result').value = "" ;
+			}
+			function getPoleClass(height, width)
+			{ 
+				 
+				const poleCirc = [];
+				const poleClass = [];
+				if (height < 20 || isNaN(height) ){
+					return "No Class";
+				}
+				if (width == 0){
+						return "No Class";
+				}
+				
+				switch (height) {
+					case 20: 
+					poleCirc.push(17.5, 19.5, 21, 23, 25, 27, 31);
+					poleClass.push("Class 10","Class 9","Class 7", "Class 6", "Class 5", "Class 4", "Class 3", "Class 2", "Class 1");
+						
+					break;
+					case 25: 
+					poleCirc.push(19.5, 21.5, 23,25.5, 27.5, 29.5, 31.5, 33.5);
+					poleClass.push("Class 10","Class 9","Class 7", "Class 6", "Class 5", "Class 4", "Class 3", "Class 2", "Class 1");
+					
+					break;
+					case 30: 
+					poleCirc.push(23.5, 25.0, 27.5, 29.5, 32.0, 34.0, 36.5);
+					poleClass.push("Class 9","Class 7", "Class 6", "Class 5", "Class 4", "Class 3", "Class 2", "Class 1");
+					
+					break;
+					case 35: 
+					poleCirc.push(27.0, 29.0, 31.5, 34.0, 36.5, 39.0, 41.5, 43.5);	
+					poleClass.push("Class 7", "Class 6", "Class 5", "Class 4", "Class 3", "Class 2", "Class 1", "Class H1", "Class H2");
+					
+					break;
+					case 40: 
+					poleCirc.push(31.0, 33.5, 36.0, 38.5, 41.0, 43.5, 46.0, 48.5, 51.0);
+					poleClass.push("Class 6", "Class 5", "Class 4", "Class 3", "Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4" );
+					
+					break;
+					case 45: 
+					poleCirc.push(32.5, 35.0, 37.5, 40.5, 43.0, 45.5, 48.5, 51.0, 53.5, 56.0, 58.5);
+					poleClass.push("Class 6", "Class 5", "Class 4", "Class 3", "Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+					
+					break;
+					case 50: 
+					poleCirc.push(36.5, 39.0, 42.0, 45.0, 47.5, 50.5, 53.0, 55.5, 58.5, 61.0);
+					poleClass.push("Class 5", "Class 4", "Class 3", "Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+					
+					break;
+					case 55:
+					poleCirc.push(40.5, 43.5, 46.5, 49.5, 52.0, 55.0, 58.0, 60.5, 63.5);
+					poleClass.push("Class 4", "Class 3", "Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+					
+					break;
+					case 60:
+					poleCirc.push(42.0, 45.0, 48.0, 51.0, 54.0, 57.0, 59.5, 62.5, 65.5);
+					poleClass.push("Class 4", "Class 3", "Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+					
+					break;
+					case 65:
+					poleCirc.push(43.5, 46.5, 49.5, 52.5, 55.5, 58.5, 61.5, 64.5, 67.5);
+					poleClass.push("Class 4", "Class 3", "Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+					
+					break;
+					case 70:
+					poleCirc.push(45.0, 48.0, 51.0, 54.0, 57.0, 60.5, 63.5, 66.5, 69.0);
+					poleClass.push("Class 4", "Class 3", "Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+					
+					break;
+					case 75:
+					poleCirc.push(49.0, 52.5, 55.5, 59.0, 62.0, 65.0, 68.0, 71.0);
+					poleClass.push("Class 3", "Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+					
+					break
+					case 80:
+					poleCirc.push(50.5, 54.0, 57.0, 60.0, 63.5, 66.5, 69.5, 72.5);
+					poleClass.push("Class 3", "Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+					
+					break
+					case 85:
+					poleCirc.push(51.5, 55.5, 58.5, 61.5, 65.0, 68.0, 71.5, 74.5);
+					poleClass.push("Class 3", "Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+
+					
+					break
+					case 90:
+					poleCirc.push(53.0, 56.0, 59.5, 63.0, 66.5, 69.5, 73.0, 76.0);
+					poleClass.push("Class 3", "Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+
+					
+					break
+					case 95:
+					poleCirc.push(57.0, 61.0, 64.5, 67.5, 71.0, 74.5, 77.5);
+					poleClass.push("Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+
+					
+					break
+					case 100:
+					poleCirc.push(58.5, 62.0, 65.5, 69.0, 72.5, 76.0, 79.0);
+					poleClass.push("Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+
+					
+					break
+					case 105:
+					poleCirc.push(59.5, 63.0, 67.0, 70.5, 74.0, 77.0, 80.5);
+					poleClass.push("Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+
+					
+					break
+					case 110:
+					poleCirc.push(60.5, 64.5, 68.0, 71.5, 75.0, 78.5, 82.0);
+					poleClass.push("Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+
+					
+					break
+					case 115:
+					poleCirc.push(61.5, 65.5, 69.0, 72.5, 76.5, 80.0, 83.5);
+					poleClass.push("Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+
+					
+					break
+					case 120:
+					poleCirc.push(62.5, 66.5, 70.0, 74.0, 77.5, 81.0, 85.0);
+					poleClass.push("Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+
+					
+					break
+					case 125:
+					poleCirc.push(63.5, 67.5, 71.0, 75.0, 78.5, 82.5, 86.0);
+					poleClass.push("Class 2", "Class 1", "Class H1", "Class H2", "Class H3", "Class H4","Class H5", "Class H6");
+
+					
+					break
+					
+				}
+				
+				
+				var smallestClass = poleClass[0];
+				var biggestClass = poleClass[poleClass.length -1];
+				
+				if (width < poleCirc[0]){
+					console.log("Circumference in height class of " + height + " matches smallest class below: " + poleCirc[0]);
+					return smallestClass;
+				}
+				if (width > poleCirc[poleCirc.length -1]){
+					console.log("Circumference in height class of " + height + " matches largest at least: " + poleCirc[poleCirc.length -1]);
+					return biggestClass;
+				}
+				
+				for (let i = 0; i < poleCirc.length -1; i++) {
+					if (width >= poleCirc[i] && width < poleCirc[i+1]){
+						console.log("Circumference in height class of " + height + " matches: " + poleCirc[i]);
+						return poleClass[i+1];
+					}
+				}
+				
+				return "No class found";
+			}
+			
+		</script>
+		
+	</head>
+	<body>
+		<label for="species"> Species:  </label>
+		<select class ="button" id="species">
+			<option value="SP"> Southern Pine </option>
+			<option value="DF"> Douglas Fir </option>
+		</select><br/> <br/>
+		<label for="feet">Feet'</label>
+		<input size="4" type="text" id = "feet"/>
+		<label for="feet">Inches"</label>
+		<input size="4" type="text" id = "inches"/><br/> <br/> 
+		<label for="feet">Width"</label> 
+		<input type="text" id = "width"/><select class ="button" id="mode">
+			<option value="diameter"> Diameter </option>
+			<option value="circumference"> Circumference </option>
+		</select><br/> <br/> 
+
+		<button class="button" onclick="calc();"">Submit</button><br/> <br/> 
+		
+		<label for="result">Height/Class:</label>
+		<input type="text" id="result"/> <br/> <br/>
+		<button class="button" onclick="clr();"">Clear All</button>
+		
+		
+		
+		<br/> <br/><br/> <br/><br/> 
+		<br/><br/>
+		<button class="button instructions" onclick="hideInstructions();"">Instructions</button>
+		<div id ="dividoo">
+		<p><small><b> Feet'and Inches"</b> </small> </p>
+		<p> <small>Type the measurements exactly how you would see the 'Tip Measurement' in <i><b>Ike Office</b></i> when measuring the top of the pole. </small></p>
+		<p><small>Example: A pole's tip measures to the height of 32'9".  In the <b>Feet'</b> field, type '32'  and in the <b>Inches"</b> field, type '9'. </small></p>
+		<br/>
+		<p><small><b>Width"</b></small></p>
+		<p><small>Diameter: Typically you would use this mode the width measuring tool in <i><b>Ike Office</b></i> to get this value. Type the diameter of the pole in terms of inches. </small></p>
+		<p><small>Example: A pole's width measures to be 1'3". In the <b>Width'</b> field, type '15'.</small></p>
+		<p><small>Circumference: Select this option to put input the circumference directly.</small></p>
+		<br/>
+		<p><small>You can check the step by step math for every "Submit" by Right Clicking anywhere on the page > Inspect > Click on Console tab</small></p>
+
+		</div>
+		<p><small><i>For any questions, issues with the calculator, or requests to add any additional features, please reach out to <a href="mailto:nathan.brown@ikegps.com">Nate Brown</a> ~ Enjoy!</i></small></p>
+	</body>
+		
+</html>
